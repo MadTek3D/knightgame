@@ -12,25 +12,24 @@ public class GameScreen implements Screen {
     private GameWorld world;
     private GameRenderer renderer;
 
-    private float deltaTime;
+    private float runTime;
 
     public GameScreen() {
-        deltaTime = 0;
+        runTime = 0;
+    }
 
+    @Override
+    public void show() {
         world = new GameWorld();
         renderer = new GameRenderer(world);
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float delta) {
-        deltaTime += delta;
+        runTime += delta;
 
-
+        world.update(delta);
+        renderer.render(runTime);
     }
 
     @Override
