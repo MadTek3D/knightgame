@@ -1,11 +1,26 @@
 package com.madtek3d.screens;
 
 import com.badlogic.gdx.Screen;
+import com.madtek3d.gameworld.GameRenderer;
+import com.madtek3d.gameworld.GameWorld;
 
 /**
  * Created by Antonio on 24/05/2015.
  */
-public class GameScreen extends Screen {
+public class GameScreen implements Screen {
+
+    private GameWorld world;
+    private GameRenderer renderer;
+
+    private float deltaTime;
+
+    public GameScreen() {
+        deltaTime = 0;
+
+        world = new GameWorld();
+        renderer = new GameRenderer(world);
+    }
+
     @Override
     public void show() {
 
@@ -13,6 +28,8 @@ public class GameScreen extends Screen {
 
     @Override
     public void render(float delta) {
+        deltaTime += delta;
+
 
     }
 
