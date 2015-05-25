@@ -1,6 +1,9 @@
 package com.madtek3d.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.madtek3d.controllers.GameScreenInput;
+import com.madtek3d.gameobjects.Knight;
 import com.madtek3d.gameworld.GameRenderer;
 import com.madtek3d.gameworld.GameWorld;
 
@@ -14,13 +17,17 @@ public class GameScreen implements Screen {
 
     private float runTime;
 
+    private Knight knight;
+
     public GameScreen() {
         runTime = 0;
+        knight = new Knight(1280/2, 108);
+        Gdx.input.setInputProcessor(new GameScreenInput(knight));
     }
 
     @Override
     public void show() {
-        world = new GameWorld();
+        world = new GameWorld(knight);
         renderer = new GameRenderer(world);
     }
 
