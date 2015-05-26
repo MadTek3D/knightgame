@@ -19,7 +19,7 @@ public class Knight {
     KnightState state;
 
     public enum KnightState {
-        IDLE, RUNNING
+        IDLE, RUNNING, JUMPING
     }
 
     private static final int SPEED = 128;
@@ -33,7 +33,14 @@ public class Knight {
     }
 
     public void update(float delta) {
+        velocity.add(acceleration.cpy().scl(delta));
         position.add(velocity.cpy().scl(delta));
+
+        if(position.y <= 108) {
+            velocity.y = 0;
+            acceleration.y = 0;
+            position.y = 108;
+        }
     }
 
     public boolean isFacingLeft() {
@@ -44,6 +51,17 @@ public class Knight {
         velocity.x = -SPEED;
         state = KnightState.RUNNING;
         isFacingLeft = true;
+    }
+
+    public void runRight() {
+        velocity.x = SPEED;
+        state = KnightState.RUNNING;
+        isFacingLeft = false;
+    }
+
+    public void jump() {
+        velocity.y = 300;
+        acceleration.y = -981;
     }
 
     public void stop() {

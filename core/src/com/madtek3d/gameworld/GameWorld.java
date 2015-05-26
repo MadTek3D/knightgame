@@ -8,9 +8,11 @@ import com.madtek3d.gameobjects.Knight;
 public class GameWorld {
 
     Knight knight;
+    int groundPos;
 
-    public GameWorld(Knight knight) {
-        this.knight = knight;
+    public GameWorld() {
+        groundPos = 108;
+        knight = new Knight(1280/2, groundPos);
     }
 
     public void update(float delta) {

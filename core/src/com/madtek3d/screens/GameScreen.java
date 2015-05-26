@@ -17,18 +17,15 @@ public class GameScreen implements Screen {
 
     private float runTime;
 
-    private Knight knight;
-
     public GameScreen() {
         runTime = 0;
-        knight = new Knight(1280/2, 108);
-        Gdx.input.setInputProcessor(new GameScreenInput(knight));
     }
 
     @Override
     public void show() {
-        world = new GameWorld(knight);
+        world = new GameWorld();
         renderer = new GameRenderer(world);
+        Gdx.input.setInputProcessor(new GameScreenInput(world));
     }
 
     @Override

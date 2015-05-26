@@ -19,9 +19,12 @@ public class GameRenderer {
     private SpriteBatch batcher;
 
     Texture bg, knightTexture;
-    TextureRegion[] pjFrames;
+    TextureRegion[] pjFramesLeft;
+    TextureRegion[] pjFramesRight;
     TextureRegion pjFacingLeft;
-    Animation pjwalking;
+    TextureRegion pjFacingRight;
+    Animation knightWalkingLeft;
+    Animation knightWalkingRight;
     Music bgmusic;
 
     public GameRenderer(GameWorld world) {
@@ -35,13 +38,22 @@ public class GameRenderer {
 
         bg = new Texture(Gdx.files.internal("data/bg.png"));
         knightTexture =  new Texture(Gdx.files.internal("data/pj.png"));
-        pjFrames = new TextureRegion[8];
+        pjFramesLeft = new TextureRegion[8];
+        pjFramesRight = new TextureRegion[8];
         for(int i = 8; i > 0; i--) {
-            pjFrames[7-(i-1)] = new TextureRegion(knightTexture, 37*(i-1), 0, 37, 39);
+            pjFramesLeft[7-(i-1)] = new TextureRegion(knightTexture, 37*(i-1), 0, 37, 39);
         }
-        pjwalking = new Animation(0.06f, pjFrames);
-        pjwalking.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        for(int i = 8; i > 0; i--) {
+            pjFramesRight[7-(i-1)] = new TextureRegion(knightTexture, 37*(i-1), 0, 37, 39);
+            pjFramesRight[7-(i-1)].flip(true, false);
+        }
+        knightWalkingLeft = new Animation(0.06f, pjFramesLeft);
+        knightWalkingLeft.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        knightWalkingRight = new Animation(0.06f, pjFramesRight);
+        knightWalkingRight.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         pjFacingLeft = new TextureRegion(knightTexture, 297, 0, 37, 39);
+        pjFacingRight = new TextureRegion(knightTexture, 297, 0, 37, 39);
+        pjFacingRight.flip(true, false);
 
         bgmusic = Gdx.audio.newMusic(Gdx.files.internal("data/Master of the Feast.mp3"));
         bgmusic.play();
@@ -52,9 +64,19 @@ public class GameRenderer {
         batcher.draw(bg, 0, 0);
         //batcher.draw(pjFacingLeft, 1280/2f, 108);
         if(world.getKnight().getState() == Knight.KnightState.RUNNING) {
-            batcher.draw(pjwalking.getKeyFrame(runTime), world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            if(world.getKnight().isFacingLeft()){
+                batcher.draw(knightWalkingLeft.getKeyFrame(runTime), world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            } else {
+                batcher.draw(knightWalkingRight.getKeyFrame(runTime), world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            }
+
         } else if(world.getKnight().getState() == Knight.KnightState.IDLE) {
-            batcher.draw(pjFacingLeft, world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            if(world.getKnight().isFacingLeft()) {
+                batcher.draw(pjFacingLeft, world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            } else {
+                batcher.draw(pjFacingRight, world.getKnight().getPosition().x, world.getKnight().getPosition().y);
+            }
+
         }
         batcher.end();
     }
