@@ -19,13 +19,23 @@ public class GameScreenInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.LEFT) {
-            world.getKnight().runLeft();
+            world.getPlayer().runLeft();
         } else if (keycode == Input.Keys.RIGHT) {
-            world.getKnight().runRight();
+            world.getPlayer().runRight();
         }
 
-        if(keycode == Input.Keys.UP && world.getKnight().getPosition().y == 108) {
-            world.getKnight().jump();
+        if(keycode == Input.Keys.UP && world.getPlayer().getPosition().y == 108) {
+            world.getPlayer().jump();
+        }
+
+        if(keycode == Input.Keys.D) {
+            world.getPlayer().stop();
+            world.getPlayer().defend();
+        }
+
+        if(keycode == Input.Keys.A) {
+            world.getPlayer().stop();
+            world.getPlayer().attack();
         }
 
         return true;
@@ -35,7 +45,7 @@ public class GameScreenInput implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.UP)
             return false;
-        world.getKnight().stop();
+        world.getPlayer().stop();
         return true;
     }
 
@@ -47,13 +57,13 @@ public class GameScreenInput implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(screenX < 1280/2) {
-            world.getKnight().runLeft();
+            world.getPlayer().runLeft();
         } else {
-            world.getKnight().runRight();
+            world.getPlayer().runRight();
         }
 
         if(screenY > 720 / 2) {
-            world.getKnight().jump();
+            world.getPlayer().jump();
         }
         return true;
     }
@@ -63,7 +73,7 @@ public class GameScreenInput implements InputProcessor {
         if(screenY > 720 / 2) {
             return false;
         }
-        world.getKnight().stop();
+        world.getPlayer().stop();
         return true;
     }
 

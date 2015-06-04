@@ -3,9 +3,9 @@ package com.madtek3d.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.madtek3d.controllers.GameScreenInput;
-import com.madtek3d.gameobjects.Knight;
 import com.madtek3d.gameworld.GameRenderer;
 import com.madtek3d.gameworld.GameWorld;
+import com.madtek3d.knightgame.Assets;
 
 /**
  * Created by Antonio on 24/05/2015.
@@ -26,6 +26,7 @@ public class GameScreen implements Screen {
         world = new GameWorld();
         renderer = new GameRenderer(world);
         Gdx.input.setInputProcessor(new GameScreenInput(world));
+        Assets.bgMusic.play();
     }
 
     @Override

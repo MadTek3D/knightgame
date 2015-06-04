@@ -1,25 +1,25 @@
 package com.madtek3d.gameworld;
 
-import com.madtek3d.gameobjects.Knight;
+import com.madtek3d.gameobjects.Player;
 
 /**
  * Created by Antonio on 24/05/2015.
  */
 public class GameWorld {
 
-    Knight knight;
-    int groundPos;
+    Player player;
+    float groundPos;
 
     public GameWorld() {
-        groundPos = 108;
-        knight = new Knight(1280/2, groundPos);
+        groundPos = 3;
+        player = new Player(1280/2, 108, 1, 1);
     }
 
     public void update(float delta) {
-        knight.update(delta);
+        player.update(delta);
     }
 
-    public Knight getKnight() {
-        return knight;
+    public Player getPlayer() {
+        return player;
     }
 }

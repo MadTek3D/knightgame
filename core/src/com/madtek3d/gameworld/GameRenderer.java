@@ -1,13 +1,10 @@
 package com.madtek3d.gameworld;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.madtek3d.gameobjects.Knight;
+import com.madtek3d.knightgame.Assets;
 
 /**
  * Created by Antonio on 24/05/2015.
@@ -18,15 +15,6 @@ public class GameRenderer {
     private OrthographicCamera camera;
     private SpriteBatch batcher;
 
-    Texture bg, knightTexture;
-    TextureRegion[] pjFramesLeft;
-    TextureRegion[] pjFramesRight;
-    TextureRegion pjFacingLeft;
-    TextureRegion pjFacingRight;
-    Animation knightWalkingLeft;
-    Animation knightWalkingRight;
-    Music bgmusic;
-
     public GameRenderer(GameWorld world) {
         this.world = world;
 
@@ -35,48 +23,51 @@ public class GameRenderer {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(camera.combined);
-
-        bg = new Texture(Gdx.files.internal("data/bg.png"));
-        knightTexture =  new Texture(Gdx.files.internal("data/pj.png"));
-        pjFramesLeft = new TextureRegion[8];
-        pjFramesRight = new TextureRegion[8];
-        for(int i = 8; i > 0; i--) {
-            pjFramesLeft[7-(i-1)] = new TextureRegion(knightTexture, 37*(i-1), 0, 37, 39);
-        }
-        for(int i = 8; i > 0; i--) {
-            pjFramesRight[7-(i-1)] = new TextureRegion(knightTexture, 37*(i-1), 0, 37, 39);
-            pjFramesRight[7-(i-1)].flip(true, false);
-        }
-        knightWalkingLeft = new Animation(0.06f, pjFramesLeft);
-        knightWalkingLeft.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        knightWalkingRight = new Animation(0.06f, pjFramesRight);
-        knightWalkingRight.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        pjFacingLeft = new TextureRegion(knightTexture, 297, 0, 37, 39);
-        pjFacingRight = new TextureRegion(knightTexture, 297, 0, 37, 39);
-        pjFacingRight.flip(true, false);
-
-        bgmusic = Gdx.audio.newMusic(Gdx.files.internal("data/Master of the Feast.mp3"));
-        bgmusic.play();
     }
 
     public void render(float runTime) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batcher.begin();
-        batcher.draw(bg, 0, 0);
-        //batcher.draw(pjFacingLeft, 1280/2f, 108);
-        if(world.getKnight().getState() == Knight.KnightState.RUNNING) {
-            if(world.getKnight().isFacingLeft()){
-                batcher.draw(knightWalkingLeft.getKeyFrame(runTime), world.getKnight().getPosition().x, world.getKnight().getPosition().y);
-            } else {
-                batcher.draw(knightWalkingRight.getKeyFrame(runTime), world.getKnight().getPosition().x, world.getKnight().getPosition().y);
-            }
-
-        } else if(world.getKnight().getState() == Knight.KnightState.IDLE) {
-            if(world.getKnight().isFacingLeft()) {
-                batcher.draw(pjFacingLeft, world.getKnight().getPosition().x, world.getKnight().getPosition().y);
-            } else {
-                batcher.draw(pjFacingRight, world.getKnight().getPosition().x, world.getKnight().getPosition().y);
-            }
-
+        batcher.draw(Assets.bg, 0, 0, Assets.bg.getWidth(), Assets.bg.getHeight());
+        switch (world.getPlayer().getState()){
+            case IDLE:
+                if(world.getPlayer().isFacingLeft()) {
+                    batcher.draw(Assets.playerIdleLeft, world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerIdleLeft.getRegionWidth(), Assets.playerIdleLeft.getRegionHeight());
+                } else {
+                    batcher.draw(Assets.playerIdleRight, world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerIdleRight.getRegionWidth(), Assets.playerIdleRight.getRegionHeight());
+                }
+                break;
+            case RUNNING:
+                if(world.getPlayer().isFacingLeft()){
+                    batcher.draw(Assets.playerWalkingLeft.getKeyFrame(runTime), world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerWalkingLeft.getKeyFrame(runTime).getRegionWidth(), Assets.playerWalkingLeft.getKeyFrame(runTime).getRegionHeight());
+                } else {
+                    batcher.draw(Assets.playerWalkingRight.getKeyFrame(runTime), world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerWalkingRight.getKeyFrame(runTime).getRegionWidth(), Assets.playerWalkingRight.getKeyFrame(runTime).getRegionHeight());
+                }
+                break;
+            case GUARD:
+                if(world.getPlayer().isFacingLeft()){
+                    batcher.draw(Assets.playerGuardLeft, world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerGuardLeft.getRegionWidth(), Assets.playerGuardLeft.getRegionHeight());
+                } else {
+                    batcher.draw(Assets.playerGuardRight, world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerGuardRight.getRegionWidth(), Assets.playerGuardRight.getRegionHeight());
+                }
+                break;
+            case ATTACK:
+                if(world.getPlayer().isFacingLeft()){
+                    batcher.draw(Assets.playerAttackLeft.getKeyFrame(runTime), world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerAttackLeft.getKeyFrame(runTime).getRegionWidth(), Assets.playerAttackLeft.getKeyFrame(runTime).getRegionHeight());
+                } else {
+                    batcher.draw(Assets.playerAttackRight.getKeyFrame(runTime), world.getPlayer().getPosition().x, world.getPlayer().getPosition().y,
+                            Assets.playerAttackRight.getKeyFrame(runTime).getRegionWidth(), Assets.playerAttackRight.getKeyFrame(runTime).getRegionHeight());
+                }
+                break;
         }
         batcher.end();
     }
