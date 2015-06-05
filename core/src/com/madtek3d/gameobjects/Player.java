@@ -1,5 +1,6 @@
 package com.madtek3d.gameobjects;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends DynamicGameObject {
     private boolean isFacingLeft;
     KnightState state;
+    public Polygon arrowBounds;
 
     public enum KnightState {
         IDLE, RUNNING, JUMPING, DEAD, ATTACK, GUARD
@@ -19,6 +21,9 @@ public class Player extends DynamicGameObject {
         super(posX, posY, width, height);
         state = KnightState.IDLE;
         isFacingLeft = true;
+        arrowBounds = new Polygon(new float[]{0,0,bounds.width,0,bounds.width,bounds.height,0,bounds.height});
+        arrowBounds.setOrigin(bounds.getWidth()/2, bounds.getHeight()/2);
+        arrowBounds.setPosition(posX, posY);
     }
 
     public void update(float delta) {
@@ -30,6 +35,8 @@ public class Player extends DynamicGameObject {
             acceleration.y = 0;
             position.y = 108;
         }
+        bounds.setPosition(position.x, position.y);
+        arrowBounds.setPosition(position.x, position.y);
     }
 
     public void runLeft() {

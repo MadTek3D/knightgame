@@ -1,9 +1,12 @@
 package com.madtek3d.gameworld;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.madtek3d.knightgame.Assets;
 
 /**
@@ -13,7 +16,9 @@ public class GameRenderer {
     private GameWorld world;
 
     private OrthographicCamera camera;
+
     private SpriteBatch batcher;
+    private ShapeRenderer debugRenderer;
 
     public GameRenderer(GameWorld world) {
         this.world = world;
@@ -23,6 +28,9 @@ public class GameRenderer {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(camera.combined);
+
+        debugRenderer = new ShapeRenderer();
+        debugRenderer.setProjectionMatrix(camera.combined);
     }
 
     public void render(float runTime) {
@@ -69,6 +77,23 @@ public class GameRenderer {
                 }
                 break;
         }
+        batcher.draw(new TextureRegion(Assets.arrow), world.arrow.getPosition().x, world.arrow.getPosition().y, Assets.arrow.getWidth()/2, Assets.arrow.getHeight()/2,
+                Assets.arrow.getWidth(), Assets.arrow.getHeight(), 1, 1, world.arrow.getRotation());
         batcher.end();
+
+        drawDebug();
+    }
+
+    private void drawDebug() {
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(Color.BLUE);
+        // player
+        debugRenderer.rect(world.getPlayer().getBounds().getX(), world.getPlayer().getBounds().getY(), world.getPlayer().getBounds().getWidth(), world.getPlayer().getBounds().getHeight());
+        // arrow
+        debugRenderer.rect(world.arrow.arrowBounds.getX(), world.arrow.arrowBounds.getY(),
+                world.arrow.getBounds().width/2, world.arrow.getBounds().height/2,
+                world.arrow.getBounds().width, world.arrow.getBounds().height,
+                1, 1, world.arrow.getRotation());
+        debugRenderer.end();
     }
 }

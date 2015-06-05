@@ -12,7 +12,7 @@ public class GameObject {
 
     public GameObject(float posX, float posY, float width, float height) {
         position = new Vector2(posX, posY);
-        bounds = new Rectangle(posX - width/2, posY - height/2, width, height);
+        bounds = new Rectangle(posX, posY, width, height);
     }
 
     public Vector2 getPosition() {

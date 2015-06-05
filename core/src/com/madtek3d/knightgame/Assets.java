@@ -16,6 +16,7 @@ public class Assets {
     public static Texture playerGuard;
     public static Texture playerAttack;
     public static Texture playerWalking;
+    public static Texture arrow;
 
     public static TextureRegion playerIdleRight, playerIdleLeft;
     public static TextureRegion playerGuardRight, playerGuardLeft;
@@ -41,6 +42,7 @@ public class Assets {
         playerGuard = new Texture(Gdx.files.internal("data/textures/knightGuard.png"));
         playerWalking = new Texture(Gdx.files.internal("data/textures/knightWalk.png"));
         playerAttack = new Texture(Gdx.files.internal("data/textures/knightAttack.png"));
+        arrow = new Texture(Gdx.files.internal("data/textures/arrow.png"));
 
         playerIdleRight = new TextureRegion(playerIdle, playerIdle.getWidth(), playerIdle.getHeight());
         playerIdleRight.flip(true, false);
