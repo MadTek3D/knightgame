@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
  * Created by Antonio on 01/06/2015.
  */
 public class DynamicGameObject extends GameObject {
+
     protected Vector2 velocity;
     protected Vector2 acceleration;
 

@@ -2,6 +2,7 @@ package com.madtek3d.controllers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.madtek3d.gameobjects.Player;
 import com.madtek3d.gameworld.GameWorld;
 
 
@@ -24,7 +25,7 @@ public class GameScreenInput implements InputProcessor {
             world.getPlayer().runRight();
         }
 
-        if(keycode == Input.Keys.UP && world.getPlayer().getPosition().y == 108) {
+        if(keycode == Input.Keys.UP && world.getPlayer().getState() != Player.KnightState.JUMPING) {
             world.getPlayer().jump();
         }
 

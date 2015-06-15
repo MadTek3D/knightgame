@@ -77,8 +77,8 @@ public class GameRenderer {
                 }
                 break;
         }
-        batcher.draw(new TextureRegion(Assets.arrow), world.arrow.getPosition().x, world.arrow.getPosition().y, Assets.arrow.getWidth()/2, Assets.arrow.getHeight()/2,
-                Assets.arrow.getWidth(), Assets.arrow.getHeight(), 1, 1, world.arrow.getRotation());
+        batcher.draw(new TextureRegion(Assets.arrow), world.arrow.getPosition().x, world.arrow.getPosition().y, Assets.arrow.getRegionWidth()/2, Assets.arrow.getRegionHeight()/2,
+                Assets.arrow.getRegionWidth(), Assets.arrow.getRegionHeight(), 1, 1, world.arrow.getRotation());
         batcher.end();
 
         drawDebug();
@@ -87,12 +87,16 @@ public class GameRenderer {
     private void drawDebug() {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.setColor(Color.BLUE);
+        // ground
+        debugRenderer.rect(world.ground.getBounds().getX(), world.ground.getBounds().getY(),
+                world.ground.getWidth(), world.ground.getHeight());
         // player
-        debugRenderer.rect(world.getPlayer().getBounds().getX(), world.getPlayer().getBounds().getY(), world.getPlayer().getBounds().getWidth(), world.getPlayer().getBounds().getHeight());
+        debugRenderer.rect(world.getPlayer().getBounds().getX(), world.getPlayer().getBounds().getY(),
+                world.getPlayer().getBounds().getBoundingRectangle().getWidth(), world.getPlayer().getBounds().getBoundingRectangle().getHeight());
         // arrow
-        debugRenderer.rect(world.arrow.arrowBounds.getX(), world.arrow.arrowBounds.getY(),
-                world.arrow.getBounds().width/2, world.arrow.getBounds().height/2,
-                world.arrow.getBounds().width, world.arrow.getBounds().height,
+        debugRenderer.rect(world.arrow.getBounds().getX(), world.arrow.getBounds().getY(),
+                world.arrow.getBounds().getOriginX(), world.arrow.getBounds().getOriginY(),
+                world.arrow.getWidth(), world.arrow.getHeight(),
                 1, 1, world.arrow.getRotation());
         debugRenderer.end();
     }

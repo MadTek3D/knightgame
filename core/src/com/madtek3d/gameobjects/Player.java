@@ -1,64 +1,66 @@
 package com.madtek3d.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.madtek3d.knightgame.Assets;
 
 /**
  * Created by Antonio on 24/05/2015.
  */
 public class Player extends DynamicGameObject {
+    private float stateTime;
     private boolean isFacingLeft;
     KnightState state;
-    public Polygon arrowBounds;
 
     public enum KnightState {
-        IDLE, RUNNING, JUMPING, DEAD, ATTACK, GUARD
+        IDLE, RUNNING, JUMPING, DEAD, ATTACK, GUARD, FALLING
     }
 
-    private static final int SPEED = 200;
+    public static final int SPEED = 200;
 
     public Player(float posX, float posY, float width, float height) {
         super(posX, posY, width, height);
         state = KnightState.IDLE;
         isFacingLeft = true;
-        arrowBounds = new Polygon(new float[]{0,0,bounds.width,0,bounds.width,bounds.height,0,bounds.height});
-        arrowBounds.setOrigin(bounds.getWidth()/2, bounds.getHeight()/2);
-        arrowBounds.setPosition(posX, posY);
+        stateTime = 0;
     }
 
     public void update(float delta) {
+        stateTime += delta;
+
         velocity.add(acceleration.cpy().scl(delta));
         position.add(velocity.cpy().scl(delta));
-
-        if(position.y <= 108) {
-            velocity.y = 0;
-            acceleration.y = 0;
-            position.y = 108;
-        }
         bounds.setPosition(position.x, position.y);
-        arrowBounds.setPosition(position.x, position.y);
+
+        if(velocity.y != 0) {
+            state = KnightState.JUMPING;
+        } else {
+            if(velocity.x != 0) {
+                state = KnightState.RUNNING;
+            } else if (velocity.x == 0 && state != KnightState.JUMPING){
+                state = KnightState.IDLE;
+            }
+        }
     }
 
     public void runLeft() {
         velocity.x = -SPEED;
-        state = KnightState.RUNNING;
         isFacingLeft = true;
     }
 
     public void runRight() {
         velocity.x = SPEED;
-        state = KnightState.RUNNING;
         isFacingLeft = false;
     }
 
     public void jump() {
         velocity.y = 400;
-        acceleration.y = -981;
+        Gdx.app.log("jumping", "true");
     }
 
     public void stop() {
         velocity.x = 0;
-        state = KnightState.IDLE;
     }
 
     public void defend() {
@@ -71,6 +73,10 @@ public class Player extends DynamicGameObject {
 
     public boolean isFacingLeft() {
         return isFacingLeft;
+    }
+
+    public float getStateTime() {
+        return stateTime;
     }
 
     public KnightState getState() {
