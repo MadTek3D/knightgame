@@ -21,12 +21,12 @@ public class Arrow extends DynamicGameObject {
         position.add(velocity.cpy().scl(delta));
         velocity.add(acceleration.cpy().scl(delta));
 
-        if(velocity.y != 0) {
+        if(velocity.y < 0) {
             rotation = (float)(Math.atan2(velocity.y, velocity.x) * 180 / Math.PI);
         }
 
         bounds.setPosition(position.x, position.y);
-        bounds.rotate(rotation);
+        bounds.setRotation(rotation);
     }
 
     public float getRotation() {

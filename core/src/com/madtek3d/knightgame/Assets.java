@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -11,11 +12,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Assets {
     // Textures
-    public static Texture bg;
+    public static Texture bg_l01, bg_l02, bg_l03, bg_l04;
     public static Texture playerIdle;
     public static Texture playerGuard;
     public static Texture playerAttack;
     public static Texture playerWalking;
+    public static TextureAtlas player;
 
     public static TextureRegion arrow;
     public static TextureRegion playerIdleRight, playerIdleLeft;
@@ -37,11 +39,15 @@ public class Assets {
     public static final int PLAYER_ATTACK_NUM_FRAMES = 3;
 
     public static void load() {
-        bg = new Texture(Gdx.files.internal("data/textures/bg.png"));
+        bg_l01 = new Texture(Gdx.files.internal("data/textures/bg01_l01.png"));
+        bg_l02 = new Texture(Gdx.files.internal("data/textures/bg01_l02.png"));
+        bg_l03 = new Texture(Gdx.files.internal("data/textures/bg01_l03.png"));
+        bg_l04 = new Texture(Gdx.files.internal("data/textures/bg01_l04.png"));
         playerIdle = new Texture(Gdx.files.internal("data/textures/knightIdle.png"));
         playerGuard = new Texture(Gdx.files.internal("data/textures/knightGuard.png"));
         playerWalking = new Texture(Gdx.files.internal("data/textures/knightWalk.png"));
         playerAttack = new Texture(Gdx.files.internal("data/textures/knightAttack.png"));
+        player = new TextureAtlas(Gdx.files.internal("data/textures/player.pack"));
 
         arrow = new TextureRegion(new Texture(Gdx.files.internal("data/textures/arrow.png")));
 
@@ -56,8 +62,8 @@ public class Assets {
         playerWalkingLeftFrames = new TextureRegion[PLAYER_WALK_NUM_FRAMES];
         playerWalkingRightFrames = new TextureRegion[PLAYER_WALK_NUM_FRAMES];
         for(int i = 0; i < PLAYER_WALK_NUM_FRAMES; i++) {
-            playerWalkingLeftFrames[i] = new TextureRegion(playerWalking, i*69, 0, 69, 127);
-            playerWalkingRightFrames[i] = new TextureRegion(playerWalking, i*69, 0, 69, 127);
+            playerWalkingLeftFrames[i] = player.findRegion("playerWalk0" + (i + 1));
+            playerWalkingRightFrames[i] = new TextureRegion(playerWalkingLeftFrames[i]);
             playerWalkingRightFrames[i].flip(true, false);
         }
 
@@ -80,5 +86,20 @@ public class Assets {
 
         // Music
         bgMusic = Gdx.audio.newMusic(Gdx.files.internal("data/music/master_of_the_feast.mp3"));
+    }
+
+    public static void dispose() {
+        bg_l01.dispose();
+        bg_l02.dispose();
+        bg_l03.dispose();
+        bg_l04.dispose();
+        player.dispose();
+        playerIdle.dispose();
+        playerWalking.dispose();
+        playerAttack.dispose();
+        playerGuard.dispose();
+        arrow.getTexture().dispose();
+
+        bgMusic.dispose();
     }
 }

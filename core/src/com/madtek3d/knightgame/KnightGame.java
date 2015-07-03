@@ -14,5 +14,6 @@ public class KnightGame extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
+		Assets.dispose();
 	}
 }

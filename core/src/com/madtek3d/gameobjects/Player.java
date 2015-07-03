@@ -1,9 +1,6 @@
 package com.madtek3d.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
-import com.madtek3d.knightgame.Assets;
 
 /**
  * Created by Antonio on 24/05/2015.
@@ -11,19 +8,23 @@ import com.madtek3d.knightgame.Assets;
 public class Player extends DynamicGameObject {
     private float stateTime;
     private boolean isFacingLeft;
-    KnightState state;
+    private KnightState state;
+
+    // health points
+    private int health;
 
     public enum KnightState {
-        IDLE, RUNNING, JUMPING, DEAD, ATTACK, GUARD, FALLING
+        IDLE, WALKING, FALLING, ATTACKING, DEFENDING
     }
 
-    public static final int SPEED = 200;
+    public static final int SPEED = 5;
 
     public Player(float posX, float posY, float width, float height) {
         super(posX, posY, width, height);
         state = KnightState.IDLE;
         isFacingLeft = true;
         stateTime = 0;
+        health = 3;
     }
 
     public void update(float delta) {
@@ -33,12 +34,12 @@ public class Player extends DynamicGameObject {
         position.add(velocity.cpy().scl(delta));
         bounds.setPosition(position.x, position.y);
 
-        if(velocity.y != 0) {
-            state = KnightState.JUMPING;
+        if(velocity.y < 0) {
+            state = KnightState.FALLING;
         } else {
             if(velocity.x != 0) {
-                state = KnightState.RUNNING;
-            } else if (velocity.x == 0 && state != KnightState.JUMPING){
+                state = KnightState.WALKING;
+            } else if (velocity.x == 0 && state != KnightState.FALLING){
                 state = KnightState.IDLE;
             }
         }
@@ -55,20 +56,20 @@ public class Player extends DynamicGameObject {
     }
 
     public void jump() {
-        velocity.y = 400;
+        velocity.y = 9;
         Gdx.app.log("jumping", "true");
     }
 
     public void stop() {
-        velocity.x = 0;
+        velocity.set(0 ,0);
     }
 
     public void defend() {
-        state = KnightState.GUARD;
+        state = KnightState.DEFENDING;
     }
 
     public void attack() {
-        state = KnightState.ATTACK;
+        state = KnightState.ATTACKING;
     }
 
     public boolean isFacingLeft() {

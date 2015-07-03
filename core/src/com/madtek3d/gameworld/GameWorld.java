@@ -13,13 +13,13 @@ public class GameWorld {
 
     Player player;
     Arrow arrow;
-    Ground ground;
+    public Ground ground;
 
-    public static final int GRAVITY = -981;
+    public static final float GRAVITY = -36f;
 
     public GameWorld() {
-        ground = new Ground(0, 0, 1280, 105);
-        player = new Player(1280/2, 500, 60, 118);
+        ground = new Ground(0, 0, 1280/40, 80/40);
+        player = new Player(5, 5, 60/40, 118/40);
         arrow = new Arrow(100, 600, 35, 5);
     }
 
@@ -29,7 +29,8 @@ public class GameWorld {
             delta = 0.1f;
         }
 
-        if(ground.getHeight() < player.getPosition().y) {
+        //if(ground.getHeight() < player.getPosition().y) {
+        if(!Intersector.overlapConvexPolygons(ground.getBounds(),player.getBounds())){
             player.getAcceleration().y = GRAVITY;
         }
 
@@ -41,11 +42,11 @@ public class GameWorld {
 
     private void checkCollisions() {
 
-        if (player.getState() == Player.KnightState.JUMPING) {
+        if (player.getState() == Player.KnightState.FALLING) {
             if (Intersector.overlapConvexPolygons(player.getBounds(), ground.getBounds())) {
                 player.getVelocity().y = 0;
                 player.getAcceleration().y = 0;
-                player.getPosition().y = ground.getHeight();
+                player.getPosition().y = 2;
             }
         }
 

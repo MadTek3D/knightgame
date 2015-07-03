@@ -20,12 +20,14 @@ public class GameScreenInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.LEFT) {
-            world.getPlayer().runLeft();
+            //world.getPlayer().runLeft();
+            world.getPlayer().getVelocity().x = -Player.SPEED;
+            world.getPlayer().getVelocity().y = Player.SPEED * world.ground.getSlope();
         } else if (keycode == Input.Keys.RIGHT) {
             world.getPlayer().runRight();
         }
 
-        if(keycode == Input.Keys.UP && world.getPlayer().getState() != Player.KnightState.JUMPING) {
+        if(keycode == Input.Keys.UP && world.getPlayer().getState() != Player.KnightState.FALLING) {
             world.getPlayer().jump();
         }
 
@@ -58,9 +60,11 @@ public class GameScreenInput implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(screenX < 1280/2) {
-            world.getPlayer().runLeft();
+            //world.getPlayer().runLeft();
+            world.getPlayer().getVelocity().x = -Player.SPEED;
+            world.getPlayer().getVelocity().y = -Player.SPEED * world.ground.getSlope();
         } else {
-            world.getPlayer().runRight();
+            //world.getPlayer().runRight();
         }
 
         if(screenY > 720 / 2) {

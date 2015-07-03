@@ -6,10 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Antonio on 29/05/2015.
  */
-public class GameObject {
-
-    protected float width;
-    protected float height;
+public abstract class GameObject {
 
     protected Vector2 position;
     protected Polygon bounds;
@@ -19,9 +16,6 @@ public class GameObject {
         bounds = new Polygon(new float[]{0, 0, width, 0, width, height, 0, height});
         bounds.setPosition(posX, posY);
         bounds.setOrigin(width / 2, height / 2);
-
-        this.width = width;
-        this.height = height;
     }
 
     public Vector2 getPosition() {
@@ -30,13 +24,5 @@ public class GameObject {
 
     public Polygon getBounds() {
         return bounds;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
     }
 }

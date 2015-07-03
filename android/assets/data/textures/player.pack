@@ -1,0 +1,96 @@
+
+player.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+playerWalk01
+  rotate: false
+  xy: 1, 109
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+playerWalk02
+  rotate: false
+  xy: 131, 109
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+playerWalk04
+  rotate: false
+  xy: 131, 109
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+playerWalk03
+  rotate: false
+  xy: 261, 109
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+playerAttack01
+  rotate: false
+  xy: 391, 102
+  size: 94, 135
+  orig: 94, 135
+  offset: 0, 0
+  index: -1
+playerAttack02
+  rotate: false
+  xy: 1, 1
+  size: 107, 106
+  orig: 107, 106
+  offset: 0, 0
+  index: -1
+playerDie03
+  rotate: false
+  xy: 487, 131
+  size: 96, 106
+  orig: 96, 106
+  offset: 0, 0
+  index: -1
+playerAttack03
+  rotate: false
+  xy: 110, 1
+  size: 90, 106
+  orig: 90, 106
+  offset: 0, 0
+  index: -1
+playerDie01
+  rotate: false
+  xy: 585, 127
+  size: 80, 110
+  orig: 80, 110
+  offset: 0, 0
+  index: -1
+playerDie02
+  rotate: false
+  xy: 667, 121
+  size: 78, 116
+  orig: 78, 116
+  offset: 0, 0
+  index: -1
+playerIdle
+  rotate: false
+  xy: 747, 119
+  size: 60, 118
+  orig: 60, 118
+  offset: 0, 0
+  index: -1
+playerGuard
+  rotate: false
+  xy: 809, 127
+  size: 61, 110
+  orig: 61, 110
+  offset: 0, 0
+  index: -1
+playerDie04
+  rotate: false
+  xy: 202, 61
+  size: 107, 46
+  orig: 107, 46
+  offset: 0, 0
+  index: -1
